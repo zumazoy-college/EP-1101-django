@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Удаление категории{% endblock %}
+
+{% block content %}
+<div class="delete-confirm">
+    <h1>Удаление категории</h1>
+    <div class="warning-box">
+        <p>Вы уверены, что хотите удалить категорию <strong>"{{ category.name }}"</strong>?</p>
+        {% if category.products.count > 0 %}
+            <p class="text-danger">⚠️ В этой категории есть товары ({{ category.products.count }} шт.)! Они также будут удалены!</p>
+        {% endif %}
+        <p class="text-danger">Это действие нельзя отменить!</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'category_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

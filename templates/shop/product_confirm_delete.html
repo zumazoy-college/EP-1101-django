@@ -1,0 +1,25 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Удаление товара{% endblock %}
+
+{% block content %}
+<div class="delete-confirm">
+    <h1>Удаление товара</h1>
+    <div class="warning-box">
+        <p>Вы уверены, что хотите удалить товар <strong>"{{ product.name }}"</strong>?</p>
+        <p class="text-danger">Это действие нельзя отменить!</p>
+    </div>
+    
+    <div class="product-info">
+        <p>Категория: {{ product.category.name }}</p>
+        <p>Цена: {{ product.price }} ₽</p>
+        <p>Остаток на складе: {{ product.stock }} шт.</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

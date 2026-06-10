@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Управление категориями{% endblock %}
+
+{% block content %}
+<h1>Категории товаров</h1>
+
+<div class="admin-actions">
+    <a href="{% url 'category_create' %}" class="btn btn-primary">➕ Создать категорию</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary">На главную</a>
+</div>
+
+<div class="categories-grid">
+    {% for category in categories %}
+        <div class="category-card">
+            <h3>{{ category.name }}</h3>
+            <p>{{ category.description|truncatewords:20 }}</p>
+            <p class="product-count">Товаров: {{ category.products.count }}</p>
+            <div class="category-actions">
+                <a href="{% url 'category_products' category.id %}" class="btn btn-info">📦 Товары</a>
+                <a href="{% url 'category_edit' category.id %}" class="btn btn-warning">✏️</a>
+                <a href="{% url 'category_delete' category.id %}" class="btn btn-danger">🗑️</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Категории пока не добавлены.</p>
+    {% endfor %}
+</div>
+{% endblock %}

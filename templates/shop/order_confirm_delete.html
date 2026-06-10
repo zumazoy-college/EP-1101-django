@@ -1,0 +1,21 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Удаление заказа{% endblock %}
+
+{% block content %}
+<div class="delete-confirm">
+    <h1>Удаление заказа</h1>
+    <div class="warning-box">
+        <p>Вы уверены, что хотите удалить заказ <strong>#{{ order.id }}</strong>?</p>
+        <p><strong>Покупатель:</strong> {{ order.customer_name }}</p>
+        <p><strong>Сумма:</strong> {{ order.total_amount }} ₽</p>
+        <p class="text-danger">Это действие нельзя отменить!</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <a href="{% url 'order_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

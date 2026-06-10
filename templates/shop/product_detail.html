@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+    <div class="product-detail-image">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <div class="placeholder">🖥️</div>
+        {% endif %}
+    </div>
+    <div class="product-detail-info">
+        <h1>{{ product.name }}</h1>
+        <p class="category">Категория: <a href="{% url 'category_products' product.category.id %}">{{ product.category.name }}</a></p>
+        <p class="price">Цена: {{ product.price }} ₽</p>
+        <p class="stock">В наличии: {{ product.stock }} шт.</p>
+        <p class="description">{{ product.description|default:"Описание отсутствует" }}</p>
+        
+        <div class="product-actions">
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Добавить в корзину</a>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Назад к товарам</a>
+            <a href="{% url 'product_edit' product.id %}" class="btn btn-warning">Редактировать</a>
+            <a href="{% url 'product_delete' product.id %}" class="btn btn-danger">Удалить</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

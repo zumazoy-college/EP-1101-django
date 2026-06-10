@@ -1,0 +1,40 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Главная - Техномаркет{% endblock %}
+
+{% block content %}
+<h1>Наши товары</h1>
+
+<div class="categories">
+    <h2>Категории</h2>
+    <div class="category-list">
+        {% for category in categories %}
+            <a href="{% url 'category_products' category.id %}" class="category-badge">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="products-grid">
+    {% for product in products %}
+        <div class="product-card">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            {% else %}
+                <div class="product-image placeholder">📱</div>
+            {% endif %}
+            <h3>{{ product.name }}</h3>
+            <p class="category">{{ product.category.name }}</p>
+            <p class="price">{{ product.price }} ₽</p>
+            <p class="stock">В наличии: {{ product.stock }} шт.</p>
+            <div class="product-actions">
+                <a href="{% url 'product_detail' product.id %}" class="btn btn-info">Подробнее</a>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">В корзину</a>
+                <a href="{% url 'product_edit' product.id %}" class="btn btn-warning">✏️</a>
+                <a href="{% url 'product_delete' product.id %}" class="btn btn-danger">🗑️</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Товаров пока нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}

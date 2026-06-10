@@ -1,0 +1,51 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Оформление заказа{% endblock %}
+
+{% block content %}
+<h1>Оформление заказа</h1>
+
+<div class="checkout-container">
+    <div class="order-summary">
+        <h3>Ваш заказ</h3>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Кол-во</th>
+                    <th>Сумма</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items.all %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }} шт.</td>
+                        <td>{{ item.total_price }} ₽</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="2" style="text-align: right;"><strong>Итого:</strong></td>
+                    <td><strong class="grand-total">{{ cart.total_price }} ₽</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="delivery-info">
+        <h3>Информация для доставки</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" onclick="return confirm('Подтвердить заказ на сумму {{ cart.total_price }} ₽?')">
+                    Подтвердить заказ ({{ cart.total_price }} ₽)
+                </button>
+                <a href="{% url 'cart_view' %}" class="btn btn-secondary">Назад в корзину</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
