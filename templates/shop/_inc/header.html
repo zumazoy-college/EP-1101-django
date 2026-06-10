@@ -1,0 +1,13 @@
+{% load static %}
+<nav class="navbar">
+    <div class="container">
+        <a href="{% url 'home' %}" class="logo">🛒 Техномаркет</a>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Главная</a>
+            <a href="{% url 'category_list' %}">📁 Категории</a>
+            <a href="{% url 'cart_view' %}">🛍️ Корзина</a>
+            <a href="{% url 'order_list' %}">📋 Заказы</a>
+            <a href="{% url 'product_create' %}">➕ Товар</a>
+        </div>
+    </div>
+</nav>

@@ -38,7 +38,19 @@
         <h3>Информация для доставки</h3>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="field-errors">
+                            {% for error in field.errors %}
+                                <span class="error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary" onclick="return confirm('Подтвердить заказ на сумму {{ cart.total_price }} ₽?')">
                     Подтвердить заказ ({{ cart.total_price }} ₽)
