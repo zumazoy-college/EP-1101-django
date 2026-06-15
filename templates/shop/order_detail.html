@@ -35,10 +35,10 @@
             <tbody>
                 {% for item in order.items.all %}
                     <tr>
-                        <td>{{ item.product.name }}</td>
-                        <td>{{ item.price }} ₽</td>
+                        <td>{{ item.product.name }}<br><small>{{ item.product.category.name }}</small></td>
+                        <td>{{ item.price }} ₽<br><small>{{ item.product.price }} ₽/шт</small></td>
                         <td>{{ item.quantity }} шт.</td>
-                        <td>{{ item.price|floatformat:2|add:item.quantity|floatformat:2 }} ₽</td>
+                        <td>{{ item.price|floatformat:2|add:item.quantity|floatformat:2 }} ₽<br><small>Всего: {{ item.price|floatformat:2|add:item.quantity|floatformat:2 }}</small></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -50,11 +50,15 @@
             </tfoot>
         </table>
     </div>
-    
+
     <div class="order-actions">
-        <a href="{% url 'order_edit' order.id %}" class="btn btn-warning">Редактировать</a>
-        <a href="{% url 'order_delete' order.id %}" class="btn btn-danger">Удалить</a>
-        <a href="{% url 'order_list' %}" class="btn btn-secondary">Назад к списку</a>
+        {% if perms.ep1101.change_order %}
+            <a href="{% url 'order_edit' order.id %}" class="btn btn-warning">Редактировать</a>
+        {% endif %}
+        {% if perms.ep1101.delete_order %}
+            <a href="{% url 'order_delete' order.id %}" class="btn btn-danger">Удалить</a>
+        {% endif %}
+        <a href="{% if perms.ep1101.view_order %}{% url 'order_list' %}{% else %}{% url 'my_orders' %}{% endif %}" class="btn btn-secondary">Назад к списку</a>
     </div>
 </div>
 {% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Мои заказы{% endblock %}
+
+{% block content %}
+<h1>Мои заказы</h1>
+
+{% if orders %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>№ заказа</th>
+                <th>Статус</th>
+                <th>Сумма</th>
+                <th>Дата</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td><strong>#{{ order.id }}</strong></td>
+                    <td>
+                        <span class="status-badge status-{{ order.status }}">
+                            {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.total_amount }} ₽</td>
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-info">Подробнее</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty-cart">
+        <p>У вас пока нет заказов</p>
+        <a href="{% url 'home' %}" class="btn btn-primary">Перейти к покупкам</a>
+    </div>
+{% endif %}
+
+<div class="cart-actions">
+    <a href="{% url 'profile' %}" class="btn btn-secondary">Назад в профиль</a>
+</div>
+{% endblock %}

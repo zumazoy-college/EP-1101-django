@@ -7,9 +7,17 @@
     <h1>{{ category.name }}</h1>
     <p class="category-description">{{ category.description }}</p>
     <div class="admin-actions">
-        <a href="{% url 'category_list' %}" class="btn btn-secondary">← Все категории</a>
-        <a href="{% url 'category_edit' category.id %}" class="btn btn-warning">✏️ Редактировать категорию</a>
-        <a href="{% url 'product_create' %}" class="btn btn-primary">➕ Добавить товар</a>
+        {% if perms.ep1101.view_category %}
+            <a href="{% url 'category_list' %}" class="btn btn-secondary">← Все категории</a>
+        {% else %}
+            <a href="{% url 'home' %}" class="btn btn-secondary">← На главную</a>
+        {% endif %}
+        {% if perms.ep1101.change_category %}
+            <a href="{% url 'category_edit' category.id %}" class="btn btn-warning">✏️ Редактировать категорию</a>
+        {% endif %}
+        {% if perms.ep1101.add_product %}
+            <a href="{% url 'product_create' %}" class="btn btn-primary">➕ Добавить товар</a>
+        {% endif %}
     </div>
 </div>
 
@@ -19,7 +27,9 @@
     {% empty %}
         <div class="empty-state">
             <p>В этой категории пока нет товаров.</p>
-            <a href="{% url 'product_create' %}" class="btn btn-primary">➕ Добавить первый товар</a>
+            {% if perms.ep1101.add_product %}
+                <a href="{% url 'product_create' %}" class="btn btn-primary">➕ Добавить первый товар</a>
+            {% endif %}
         </div>
     {% endfor %}
 </div>

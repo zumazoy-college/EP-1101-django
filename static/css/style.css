@@ -579,3 +579,29 @@ h3 {
     color: #718096;
     font-size: 0.75rem;
 }
+
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 140px);
+    padding: 20px;
+    box-sizing: border-box;
+}
+.access-denied a {
+    font-size: 2rem;
+    text-decoration: none;
+    background-color: #616161;
+    color: red;
+    cursor: pointer;
+    transition: all 0.4s;
+    padding: 20px;
+    border-radius: 12px;
+}
+.access-denied a:hover {
+    transform: rotate(20deg);
+    text-decoration: underline;
+    scale: 3;
+    box-shadow: 0 0 20px #d32f2f;
+}

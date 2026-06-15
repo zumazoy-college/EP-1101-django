@@ -23,7 +23,7 @@
             </div>
         {% endfor %}
         
-        {% if order %}
+        {% if order and perms.ep1101.update_order %}
             <div class="form-group">
                 <label>Статус заказа</label>
                 <select name="status" class="form-control">

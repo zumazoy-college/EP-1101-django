@@ -1,0 +1,9 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Доступ запрещен{% endblock %}
+
+{% block content %}
+<div class="auth-container access-denied">
+    <a href="{% url 'home' %}">Доступ запрещен</a>
+</div>
+{% endblock %}

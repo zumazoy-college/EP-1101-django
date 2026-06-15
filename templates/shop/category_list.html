@@ -6,7 +6,9 @@
 <h1>Категории товаров</h1>
 
 <div class="admin-actions">
-    <a href="{% url 'category_create' %}" class="btn btn-primary">➕ Создать категорию</a>
+    {% if perms.ep1101.add_category %}
+        <a href="{% url 'category_create' %}" class="btn btn-primary">➕ Создать категорию</a>
+    {% endif %}
     <a href="{% url 'home' %}" class="btn btn-secondary">На главную</a>
 </div>
 
@@ -18,8 +20,12 @@
             <p class="product-count">Товаров: {{ category.products.count }}</p>
             <div class="category-actions">
                 <a href="{% url 'category_products' category.id %}" class="btn btn-info">📦 Товары</a>
-                <a href="{% url 'category_edit' category.id %}" class="btn btn-warning">✏️</a>
-                <a href="{% url 'category_delete' category.id %}" class="btn btn-danger">🗑️</a>
+                {% if perms.ep1101.change_category %}
+                    <a href="{% url 'category_edit' category.id %}" class="btn btn-warning">✏️</a>
+                {% endif %}
+                {% if perms.ep1101.delete_category %}
+                    <a href="{% url 'category_delete' category.id %}" class="btn btn-danger">🗑️</a>
+                {% endif %}
             </div>
         </div>
     {% empty %}

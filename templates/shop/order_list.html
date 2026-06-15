@@ -24,10 +24,10 @@
     <tbody>
         {% for order in orders %}
             <tr>
-                <td><strong>#{{ order.id }}</strong></td>
+                <td><strong>#{{ order.id }}</strong><br><small>{{ order.user.username|default:"Гость" }}</small></td>
                 <td>{{ order.customer_name }}</td>
                 <td>{{ order.phone }}</td>
-                <td>{{ order.total_amount }} ₽</td>
+                <td>{{ order.total_amount }} ₽<br><small>{{ order.items.count }} товаров</small></td>
                 <td>
                     <span class="status-badge status-{{ order.status }}">
                         {{ order.get_status_display }}
@@ -36,8 +36,12 @@
                 <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
                 <td class="order-actions">
                     <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-info">👁️</a>
-                    <a href="{% url 'order_edit' order.id %}" class="btn btn-sm btn-warning">✏️</a>
-                    <a href="{% url 'order_delete' order.id %}" class="btn btn-sm btn-danger">🗑️</a>
+                    {% if perms.ep1101.change_order %}
+                        <a href="{% url 'order_edit' order.id %}" class="btn btn-sm btn-warning">✏️</a>
+                    {% endif %}
+                    {% if perms.ep1101.delete_order %}
+                        <a href="{% url 'order_delete' order.id %}" class="btn btn-sm btn-danger">🗑️</a>
+                    {% endif %}
                 </td>
             </tr>
         {% empty %}

@@ -6,13 +6,25 @@
         <div class="product-image placeholder">📱</div>
     {% endif %}
     <h3>{{ product.name }}</h3>
-    <p class="category">{{ product.category.name }}</p>
+    <p class="category">
+        {% if perms.ep1101.view_category %}
+            <a href="{% url 'category_products' product.category.id %}">{{ product.category.name }}</a>
+        {% else %}
+            {{ product.category.name }}
+        {% endif %}
+    </p>
     <p class="price">{{ product.price }} ₽</p>
     <p class="stock">В наличии: {{ product.stock }} шт.</p>
     <div class="product-actions">
         <a href="{% url 'product_detail' product.id %}" class="btn btn-info">Подробнее</a>
-        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">В корзину</a>
-        <a href="{% url 'product_edit' product.id %}" class="btn btn-warning">✏️</a>
-        <a href="{% url 'product_delete' product.id %}" class="btn btn-danger">🗑️</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">В корзину</a>
+        {% endif %}
+        {% if perms.ep1101.change_product %}
+            <a href="{% url 'product_edit' product.id %}" class="btn btn-warning">✏️</a>
+        {% endif %}
+        {% if perms.ep1101.delete_product %}
+            <a href="{% url 'product_delete' product.id %}" class="btn btn-danger">🗑️</a>
+        {% endif %}
     </div>
 </div>

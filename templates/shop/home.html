@@ -9,7 +9,11 @@
     <h2>Категории</h2>
     <div class="category-list">
         {% for category in categories %}
-            <a href="{% url 'category_products' category.id %}" class="category-badge">{{ category.name }}</a>
+            {% if perms.ep1101.view_category %}
+                <a href="{% url 'category_products' category.id %}" class="category-badge">{{ category.name }}</a>
+            {% else %}
+                <span class="category-badge" style="background: #e2e8f0;">{{ category.name }}</span>
+            {% endif %}
         {% endfor %}
     </div>
 </div>

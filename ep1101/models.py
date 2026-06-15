@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -38,6 +39,7 @@ class Product(models.Model):
 
 class Cart(models.Model):
     """Корзина"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='cart', null=True, blank=True)
     created_at = models.DateTimeField('Дата создания', auto_now_add=True)
     updated_at = models.DateTimeField('Дата обновления', auto_now=True)
 
@@ -46,7 +48,7 @@ class Cart(models.Model):
         verbose_name_plural = 'Корзины'
 
     def __str__(self):
-        return f"Корзина #{self.id}"
+        return f"Корзина {self.user.username if self.user else '#' + str(self.id)}"
 
     def total_price(self):
         """Общая стоимость корзины"""
@@ -82,6 +84,7 @@ class Order(models.Model):
         ('cancelled', 'Отменен'),
     ]
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь', related_name='orders', null=True, blank=True)
     status = models.CharField('Статус', max_length=20, choices=STATUS_CHOICES, default='pending')
     total_amount = models.DecimalField('Общая сумма', max_digits=10, decimal_places=2, default=0)
 
