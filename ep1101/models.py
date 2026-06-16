@@ -46,6 +46,7 @@ class Cart(models.Model):
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"Корзина {self.user.username if self.user else '#' + str(self.id)}"
