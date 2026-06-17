@@ -17,6 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/ep1101" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/zuma" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/web/shop/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="uv (EP-1101-django)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

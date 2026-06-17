@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres:18
+    container_name: postgres_db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME_PGSQL}
+      POSTGRES_PASSWORD: ${DB_PASSWORD_PGSQL}
+      POSTGRES_DB: ${DB_NAME_PGSQL}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME_PGSQL} -d ${DB_NAME_PGSQL}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: ./web
+    container_name: django_app
+    restart: always
+    volumes:
+      - static_volume:/app/productionfiles
+      - media_volume:/app/media
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:1.25
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/productionfiles
+      - media_volume:/app/media
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - web
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
+networks:
+  backend:

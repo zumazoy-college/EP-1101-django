@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-zeg-@dz&haxm&w982yvih8vgd0hg1rqvl&t7q7$vehg43-2z&d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -113,7 +113,7 @@ DATABASES = {
         'NAME': 'store',
         'USER': 'store_user',
         'PASSWORD': 'qwerty',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -155,7 +155,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'productionfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
