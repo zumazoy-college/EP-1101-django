@@ -4,9 +4,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
+from zuma.metrics import metrics_view
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('metrics', metrics_view, name='prometheus-metrics'),
     path('', include('ep1101.urls')),
     path('api/', include('api.urls')),
 

@@ -30,6 +30,11 @@ END
 
 echo "Superuser check completed"
 
+# Каталог метрик воркеров лежит в volume: счётчики переживают перезапуск контейнера.
+# Live-gauge принадлежат процессам прошлого запуска, поэтому их удаляем.
+mkdir -p "$PROMETHEUS_MULTIPROC_DIR"
+rm -f "$PROMETHEUS_MULTIPROC_DIR"/gauge_live*.db
+
 echo "starting gunicorn"
 exec uv run gunicorn zuma.wsgi:application \
     --bind 0.0.0.0:8000 \

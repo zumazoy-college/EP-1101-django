@@ -1,7 +1,8 @@
 FROM python:3.14-slim
 
 ENV PYTHONUNBUFFERED=1 \
-    UV_PROJECT_ENVIRONMENT=/usr/local
+    UV_PROJECT_ENVIRONMENT=/usr/local \
+    PROMETHEUS_MULTIPROC_DIR=/app/prometheus_multiproc
 
 WORKDIR /app
 
@@ -20,7 +21,7 @@ RUN uv sync --no-dev
 COPY shop/ .
 COPY entrypoint.sh .
 
-RUN chmod +x /app/entrypoint.sh
+RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
 EXPOSE 8000
 

@@ -26,13 +26,17 @@ services:
     volumes:
       - static_volume:/app/productionfiles
       - media_volume:/app/media
+      - prometheus_multiproc:/app/prometheus_multiproc
     env_file:
       - .env
     depends_on:
       db:
         condition: service_healthy
     networks:
-      - backend
+      backend:
+      MS:
+        aliases:
+          - django-shop
 
   nginx:
     image: nginx:1.25
@@ -53,6 +57,10 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  prometheus_multiproc:
 
 networks:
   backend:
+  # Общая сеть с Prometheus/Grafana
+  MS:
+    external: true

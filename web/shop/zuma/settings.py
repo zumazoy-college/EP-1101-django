@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_spectacular',
     'django_filters',
+    'django_prometheus',
     'ep1101',
     'api',
 ]
@@ -75,6 +76,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'zuma.urls'
@@ -109,7 +112,7 @@ WSGI_APPLICATION = 'zuma.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django_prometheus.db.backends.postgresql',
         'NAME': 'store',
         'USER': 'store_user',
         'PASSWORD': 'qwerty',
@@ -159,6 +162,12 @@ STATIC_ROOT = BASE_DIR / 'productionfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# Метрики Prometheus
+
+# Gauge миграций в multiprocess-режиме gunicorn дублируются по pid, они не нужны
+PROMETHEUS_EXPORT_MIGRATIONS = False
 
 
 LOGIN_URL = 'login'
